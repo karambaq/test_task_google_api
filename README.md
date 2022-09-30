@@ -19,13 +19,14 @@ SECRET_KEY=SOME_KEY
 
 ## Migrations and Static
 
-`docker-compose run backend python3 manage.py migrate`
+- `docker-compose run backend python3 manage.py migrate`
 
-`docker-compose up -d`
-`docker exec -it -u 0 backend python manage.py collectstatic --no-input`
+- `docker-compose up -d`
+
+- `docker exec -it -u 0 backend python manage.py collectstatic --no-input`
 
 # Launch
 
-`docker-compose up --build`
+- `docker-compose up --build`
 
-Then open `localhost:3000`
+Then navigate to `localhost:3000` in browser
