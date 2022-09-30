@@ -1,0 +1,71 @@
+version: "3.8"
+
+services:
+  backend:
+    container_name: backend
+    restart: always
+    build:
+      context: ./exchange_rate
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
+    volumes:
+      - static:/code/static
+    env_file:
+      - .env
+    depends_on:
+      - db
+
+  db:
+    container_name: db
+    restart: always
+    image: postgres:13
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    volumes:
+      - pgdata:/var/lib/postgresql/data/
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+
+  frontend:
+    container_name: frontend
+    build:
+      context: ./exchange_rate_react
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+  redis:
+    image: redis:latest
+    restart: always
+    container_name: redis
+    volumes:
+      - redis:/var/lib/redis/data
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+    ports:
+      - "6379"
+    env_file:
+      - .env
+
+  worker:
+    build:
+      context: ./exchange_rate
+    command: celery -A exchange_rate worker -B -l info -s /tmp/celerybeat-schedule
+    restart: always
+    container_name: celery
+    depends_on:
+      - db
+      - backend
+    volumes:
+      - ./exchange_rate:/code
+    env_file:
+      - .env
+
+volumes:
+  pgdata:
+  redis:
+  static:

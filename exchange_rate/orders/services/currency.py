@@ -3,9 +3,10 @@ import xml.etree.ElementTree as ET
 import aiohttp
 import asyncio
 
-API_URL = "http://www.cbr.ru/scripts/XML_daily.asp?date_req={}"
+from .constants import API_URL
 
 
+# Using cache to improve performance
 @lru_cache
 async def get_rate(session, url, currency_id="R01235", date=None):
     async with session.get(url) as resp:
@@ -16,9 +17,7 @@ async def get_rate(session, url, currency_id="R01235", date=None):
 
 
 async def fetch_rates(dates):
-
     async with aiohttp.ClientSession() as session:
-
         tasks = []
         for date in dates:
             url = API_URL.format(date)
@@ -30,7 +29,6 @@ async def fetch_rates(dates):
         dates_dict = {}
         for date in dates:
             dates_dict.update(date)
-        # print(f"{dates_dict=}")
         return dates_dict
 
 

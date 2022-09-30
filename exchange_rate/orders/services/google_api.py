@@ -17,7 +17,7 @@ def auth():
     ]
 
     credentials = ServiceAccountCredentials.from_json_keyfile_name(
-        "sec.json", scope
+        "creds.json", scope
     )
 
     return gspread.authorize(credentials)
@@ -26,6 +26,3 @@ def auth():
 def get_worksheet():
     gc = auth()
     return gc.open_by_url(URL).worksheet(SHEET_NAME)
-
-
-# print(get_worksheet())
