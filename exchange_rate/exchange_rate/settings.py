@@ -136,7 +136,7 @@ CELERY_RESULT_BACKEND = "".join(
 CELERY_BEAT_SCHEDULE = {
     "update_db": {
         "task": "orders.tasks.update_db",
-        "schedule": 10.0,
+        "schedule": 3.0,
     },
 }
 CELERY_ACCEPT_CONTENT = ["application/json"]

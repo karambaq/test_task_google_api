@@ -18,7 +18,7 @@ export default function Exchange() {
       axios.get(baseURL).then((response) => {
         setData(response.data);
       });
-    }, 4000);
+    }, 3000);
     return () => {
       clearInterval(intervalCall);
     };

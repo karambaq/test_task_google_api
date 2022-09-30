@@ -17,3 +17,8 @@ class Order(models.Model):
         max_digits=15,
     )
     delivery_date = models.DateField(verbose_name="Срок поставки")
+
+    class Meta:
+        ordering = ("id",)
+        verbose_name = "Заказ"
+        verbose_name_plural = "Заказы"

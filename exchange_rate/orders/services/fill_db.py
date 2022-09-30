@@ -3,7 +3,14 @@ from .google_api import get_worksheet
 from .currency import fetch_rates_by_date
 from .utils import convert_date_format, calculate_rub_price, get_logger
 from .validators import validate_records
-from .constants import NUM, ORDER_NUM, PRICE, DELIVERY_DATE
+from .constants import (
+    NUM,
+    ORDER_NUM,
+    PRICE,
+    DELIVERY_DATE,
+    DELIVERY_LATE_MESSAGE,
+)
+from .send_msg_to_tg import send_message_to_tg
 
 logger = get_logger()
 
@@ -19,11 +26,15 @@ def delete_old_orders(
     Order.objects.filter(order_id__in=to_delete).delete()
 
 
+def is_delivery_outdated(date):
+    "Template for 4.b task"
+    return True
+
+
 def update() -> None:
     "Updating database with new values"
     all_records: list[dict] = get_worksheet().get_all_records()
     validated_records = validate_records(all_records)
-    logger.info("{validated_records=}")
 
     current_order_ids = set(
         Order.objects.all().values_list("order_id", flat=True)
@@ -47,6 +58,15 @@ def update() -> None:
             record[PRICE],
             record[DELIVERY_DATE],
         )
+
+        # FYI: 4.b на счёт Телеграмма
+        # "Если срок прошёл" - значит, что текущая дата больше срока поставки?
+        # В таблице все даты раньше текущей, так что сделаю шаблон,
+        # с дальнейшей возможностью переопределить нужное условие
+        # is_delivery_late = is_delivery_outdated(delivery_date)
+        # if is_delivery_late:
+        #     send_message_to_tg(DELIVERY_LATE_MESSAGE.format(order_id)).delay()
+
         price_rub = calculate_rub_price(rates, delivery_date, price_usd)
         # Converting date to match django DateTime type.
         date = convert_date_format(delivery_date)

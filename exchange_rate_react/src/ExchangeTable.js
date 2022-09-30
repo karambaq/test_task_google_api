@@ -18,7 +18,7 @@ export default function ExchangeTable(props) {
               <TableCell>Номер заказа</TableCell>
               <TableCell>Стоимость в $</TableCell>
               <TableCell>Стоимость в ₽</TableCell>
-              <TableCell>Дата</TableCell>
+              <TableCell>Срок доставки</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

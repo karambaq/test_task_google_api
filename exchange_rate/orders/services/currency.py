@@ -13,6 +13,7 @@ async def get_rate(session, url, currency_id="R01235", date=None):
         response = await resp.text()
         response_xml = ET.fromstring(response)
         currency_node = response_xml.find(f".//*[@ID='{currency_id}']")
+        # Returning dict to easily get value by date later
         return {date: currency_node.find("Value").text}
 
 
