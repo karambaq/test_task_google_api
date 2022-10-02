@@ -27,7 +27,7 @@ SECRET_KEY=SOME_KEY
 
 # Launch
 
-- `docker-compose up --build`
+- `docker-compose up --build -d`
 
 Then navigate to `localhost` in browser
 
