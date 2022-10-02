@@ -47,7 +47,9 @@ def validate_records(records) -> list[dict]:
     "Validates records from table and returns only valid ones."
     validated_records: list = []
     for record in records:
-        if not record:
+        logger.info(f"{record=}")
+        # logger.info(f"{all(list(map(lambda x: x != '' record)))}")
+        if not any(list(map(lambda x: x != "", record.values()))):
             logger.info("Empty line in table.")
             continue
         _id, order_id, price_usd, delivery_date = (

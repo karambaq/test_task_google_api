@@ -40,7 +40,7 @@ def update() -> None:
         Order.objects.all().values_list("order_id", flat=True)
     )
     current_ids = set(Order.objects.all().values_list("id", flat=True))
-    delete_old_orders(current_ids, validated_records)
+    delete_old_orders(current_order_ids, validated_records)
 
     # Extracting all dates from table to make async requests
     current_dates: set[str | None] = set(
