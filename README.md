@@ -29,7 +29,7 @@ SECRET_KEY=SOME_KEY
 
 - `docker-compose up --build`
 
-Then navigate to `localhost:3000` in browser
+Then navigate to `localhost` in browser
 
 # Author
 
