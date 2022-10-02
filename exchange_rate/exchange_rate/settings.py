@@ -14,7 +14,7 @@ load_dotenv()
 SECRET_KEY = os.getenv("SECRET_KEY", "lmsfo32ofemlkdmg4ojvmvmp")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", "0.0.0.0"]
 
@@ -119,8 +119,8 @@ STATIC_URL = "/static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-REDIS_PASS = os.environ.get("REDIS_PASS")
-REDIS_PASS = REDIS_PASS if not DEBUG else ""
+REDIS_PASS = os.environ.get("REDIS_PASS", "")
+# REDIS_PASS = REDIS_PASS if not DEBUG else ""
 CELERY_BROKER_URL = f"redis://{':' if REDIS_PASS else ''}{REDIS_PASS}{'@' if REDIS_PASS else ''}redis:6379"
 REDIS_HOST = os.environ.get("REDIS_HOST", "redis")
 REDIS_PORT = os.environ.get("REDIS_PORT", "6379")
@@ -136,7 +136,7 @@ CELERY_RESULT_BACKEND = "".join(
 CELERY_BEAT_SCHEDULE = {
     "update_db": {
         "task": "orders.tasks.update_db",
-        "schedule": 3.0,
+        "schedule": 10.0,
     },
 }
 CELERY_ACCEPT_CONTENT = ["application/json"]
@@ -157,5 +157,5 @@ CACHES = {
 DATE_FORMAT = "DD.MM.YYYY"
 USE_I10N = True
 
-STATIC_URL = "/static/"
-STATIC_ROOT = os.path.join(BASE_DIR, "static/")
+STATIC_URL = "/staticfiles/"
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")

@@ -13,5 +13,6 @@ RUN poetry config virtualenvs.create false \
 COPY . .
 
 
-EXPOSE 8000
-CMD python manage.py runserver 0.0.0.0:8000
+# EXPOSE 8000
+# CMD python manage.py runserver 0.0.0.0:8000
+CMD gunicorn --workers=4 --threads=3 exchange_rate.wsgi:application --bind 0.0.0.0:8000

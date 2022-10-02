@@ -7,10 +7,9 @@ services:
     build:
       context: ./exchange_rate
       dockerfile: Dockerfile
-    ports:
-      - 8000:8000
     volumes:
-      - static:/code/static
+      - staticfiles:/var/html/staticfiles
+      - media:/code/media
     env_file:
       - .env
     depends_on:
@@ -29,13 +28,20 @@ services:
     env_file:
       - .env
 
-  frontend:
-    container_name: frontend
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
     build:
       context: ./exchange_rate_react
       dockerfile: Dockerfile
+    restart: unless-stopped
+    command: '/bin/sh -c ''while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g "daemon off;"'''
+    volumes:
+      - static:/var/html/static
+      - staticfiles:/var/html/staticfiles
+      - media:/var/html/media
     ports:
-      - "3000:3000"
+      - "80:80"
     depends_on:
       - backend
 
@@ -69,3 +75,5 @@ volumes:
   pgdata:
   redis:
   static:
+  staticfiles:
+  media:

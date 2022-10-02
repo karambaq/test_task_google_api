@@ -30,3 +30,7 @@ SECRET_KEY=SOME_KEY
 - `docker-compose up --build`
 
 Then navigate to `localhost:3000` in browser
+
+# Author
+
+@karambaq

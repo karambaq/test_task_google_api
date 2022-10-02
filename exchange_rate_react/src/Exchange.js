@@ -8,7 +8,7 @@ import Total from "./Total";
 import ExchangeTable from "./ExchangeTable";
 import Item from "./Item";
 
-const baseURL = "http://localhost:8000/";
+const baseURL = "http://localhost/orders/";
 
 export default function Exchange() {
   const [data, setData] = React.useState(null);
