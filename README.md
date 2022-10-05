@@ -31,6 +31,10 @@ SECRET_KEY=SOME_KEY
 
 Then navigate to `localhost` in browser
 
+# Google Sheet link:
+
+https://docs.google.com/spreadsheets/d/17PynPkgYnd1XwUEzWZ6fRNi3fw5IZIBmKqTfwmAPonQ/edit#gid=0
+
 # Author
 
 @karambaq
