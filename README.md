@@ -37,7 +37,7 @@ https://docs.google.com/spreadsheets/d/17PynPkgYnd1XwUEzWZ6fRNi3fw5IZIBmKqTfwmAP
 
 # Websockets version
 
-Websockets version are also available at the websockets branch.
+Websockets version are also available at the [websockets](https://github.com/karambaq/test_task_google_api/tree/websockets) branch.
 # Author
 
 @karambaq
