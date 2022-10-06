@@ -14,7 +14,7 @@ load_dotenv()
 SECRET_KEY = os.getenv("SECRET_KEY", "lmsfo32ofemlkdmg4ojvmvmp")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", "0.0.0.0"]
 
@@ -23,6 +23,7 @@ ALLOWED_HOSTS = ["localhost", "127.0.0.1", "0.0.0.0"]
 
 INSTALLED_APPS = [
     "orders",
+    "channels",
     "rest_framework",
     "corsheaders",
     "django.contrib.admin",
@@ -67,7 +68,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "exchange_rate.wsgi.application"
-
+ASGI_APPLICATION = "exchange_rate.asgi.application"
 
 DATABASES = {
     "default": {
@@ -122,6 +123,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 REDIS_PASS = os.environ.get("REDIS_PASS", "")
 # REDIS_PASS = REDIS_PASS if not DEBUG else ""
 CELERY_BROKER_URL = f"redis://{':' if REDIS_PASS else ''}{REDIS_PASS}{'@' if REDIS_PASS else ''}redis:6379"
+CELERY_BROKER_URL = f"redis://redis:6379"
 REDIS_HOST = os.environ.get("REDIS_HOST", "redis")
 REDIS_PORT = os.environ.get("REDIS_PORT", "6379")
 CELERY_RESULT_BACKEND = "".join(
@@ -133,6 +135,9 @@ CELERY_RESULT_BACKEND = "".join(
         REDIS_HOST + ":" + REDIS_PORT + "/0",
     ]
 )
+
+# CELERY_BROKER_URL = "redis://localhost:6379"
+# CELERY_RESULT_BACKEND = "redis://localhost:6379"
 CELERY_BEAT_SCHEDULE = {
     "update_db": {
         "task": "orders.tasks.update_db",
@@ -159,3 +164,12 @@ USE_I10N = True
 
 STATIC_URL = "/staticfiles/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("redis", 6379)],
+        },
+    },
+}

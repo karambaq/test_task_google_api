@@ -1,4 +1,3 @@
-import axios from "axios";
 import React from "react";
 
 import Box from "@mui/material/Box";
@@ -8,21 +7,30 @@ import Total from "./Total";
 import ExchangeTable from "./ExchangeTable";
 import Item from "./Item";
 
-const baseURL = "http://localhost/orders/";
+
+var ws = new WebSocket("ws://localhost/ws/orders/");
 
 export default function Exchange() {
-  const [data, setData] = React.useState(null);
+  let [data, setData] = React.useState(null);
 
-  React.useEffect(() => {
-    const intervalCall = setInterval(() => {
-      axios.get(baseURL).then((response) => {
-        setData(response.data);
-      });
-    }, 3000);
-    return () => {
-      clearInterval(intervalCall);
-    };
-  }, []);
+    React.useEffect(() => {
+
+        let allData;
+        ws.onopen = function (e) {
+            ws.send(
+                JSON.stringify({
+                    action: "list",
+                    request_id: new Date().getTime(),
+                })
+            );
+        };
+
+        ws.onmessage = function (e) {
+            allData = JSON.parse(e.data);
+            console.log(allData);
+            setData(allData)
+        }
+    })
   if (!data) return null;
 
   return (

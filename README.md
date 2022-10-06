@@ -31,6 +31,9 @@ SECRET_KEY=SOME_KEY
 
 Then navigate to `localhost` in browser
 
+# Websockets version
+
+Websockets version are also available at the `websockets` branch.
 # Author
 
 @karambaq

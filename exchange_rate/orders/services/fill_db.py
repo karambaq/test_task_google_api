@@ -1,3 +1,8 @@
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
+
+from ..serializers import OrderSerializer
+
 from ..models import Order
 from .google_api import get_worksheet
 from .currency import fetch_rates_by_date
@@ -8,11 +13,11 @@ from .constants import (
     ORDER_NUM,
     PRICE,
     DELIVERY_DATE,
-    DELIVERY_LATE_MESSAGE,
 )
 from .send_msg_to_tg import send_message_to_tg
 
 logger = get_logger()
+channel_layer = get_channel_layer()
 
 
 def delete_old_orders(
@@ -82,4 +87,9 @@ def update() -> None:
     Order.objects.bulk_update(
         orders_to_update,
         fields=["order_id", "price_usd", "price_rub", "delivery_date"],
+    )
+    serializer = OrderSerializer(Order.objects.all(), many=True)
+    async_to_sync(channel_layer.group_send)(
+        "orders",
+        {"type": "send_new_data", "text": serializer.data},
     )

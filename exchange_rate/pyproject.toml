@@ -26,6 +26,9 @@ aiohttp = "^3.8.3"
 asyncio = "^3.4.3"
 django-cors-headers = "^3.13.0"
 python-telegram-bot = "^13.14"
+djangochannelsrestframework = "1.0.0"
+channels = "^3.0.5"
+channels-redis = "^3.4.1"
 
 [tool.poetry.dev-dependencies]
 
