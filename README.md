@@ -35,6 +35,9 @@ Then navigate to `localhost` in browser
 
 https://docs.google.com/spreadsheets/d/17PynPkgYnd1XwUEzWZ6fRNi3fw5IZIBmKqTfwmAPonQ/edit#gid=0
 
+# Websockets version
+
+Websockets version are also available at the websockets branch.
 # Author
 
 @karambaq
